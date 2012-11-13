@@ -104,9 +104,12 @@ do
     number_fields="$(echo ${svn_externals}|awk '{print NF}')"
     case $number_fields in
         2)
-            local_directory="$(echo ${svn_externals} | awk '{print $1}' | sed 's,^/,,')"
+            #svn_externals="/hb_sys_module/hb_sys_comm/svn://192.168.5.1/hbgk_nvr/Inc inc"
+            local_directory="$(echo ${svn_externals} | awk '{print $1}')"
+            remote_url="svn:$(echo ${local_directory} | sed 's,svn:, ,' | awk '{print $2}')"
+            local_directory="$(echo ${local_directory} | sed 's,svn:, ,' | awk '{print $1}' | sed 's,^/,,')"
+            local_directory="$local_directory$(echo ${svn_externals} | awk '{print $2}')"
             revision=""
-            remote_url="$(echo ${svn_externals} | awk '{print $2}')"
             ;;
         3)
             local_directory="$(echo ${svn_externals} | awk '{print $1}' | sed 's,^/,,')"
@@ -115,7 +118,6 @@ do
             ;;
         *) continue ;;
     esac
-
     check_excluded=$(is_excluded $local_directory)
     if [ $check_excluded -eq 0 ] ; then
         if [ -n "$USE_SSH" ]; then
@@ -132,7 +134,7 @@ do
 
         dir=`dirname $local_directory`
         [ -d ".git_externals/$dir" ] || mkdir -p ".git_externals/$dir"
-
+        echo "$revision" --- "$remote_url" -- "$local_directory" 
         do_clone "$revision" "$remote_url" "$local_directory" || exit
         do_link "$local_directory"
         do_excludes "$local_directory"
