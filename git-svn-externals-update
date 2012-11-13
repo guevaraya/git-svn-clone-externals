@@ -1,8 +1,8 @@
 #!/bin/bash
 
 toplevel_directory="$(git rev-parse --show-cdup)"
-[ -n "$toplevel_directory" ] && { echo "please run from the toplevel directory"; exit 1; }
-
+[ -n "$toplevel_directory" ] && { pushd $toplevel_directory; }
+#[ -n "$toplevel_directory" ] && { echo "please run from the toplevel directory"; exit 1; }
 find .git_externals -type d -name .git | while read gitdir; do
 	dir=$(dirname "$gitdir")
     if [ -d $dir ]; then
@@ -13,3 +13,5 @@ find .git_externals -type d -name .git | while read gitdir; do
 	popd
     fi
 done
+[ -n "$toplevel_directory" ] && { popd ;}
+

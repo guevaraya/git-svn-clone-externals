@@ -1,0 +1,12 @@
+INTALL
+---------------------------
+this script should copy to git-core directory which git command may execute
+always be /usr/libexec/git-core/, when we use is like this:
+git svn-update will invoke the git-svn-update script, other and so on; 
+
+安装
+---------------------------
+将当前目录的脚步放到git-core目录下，默认是在/usr/libexec/git-core/下，
+使用方式是 git command， 如git-svn-update 使用git svn-update 调用，
+其他的命令脚步类同；
+
