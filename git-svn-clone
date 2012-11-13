@@ -1,0 +1,39 @@
+#!/bin/bash
+CLONE_DIR_DEFAULT=svn
+CLONE_USER_DEFAULT=root
+CLONE_PWD=`pwd`
+if echo $1  | grep -qi "help";then
+	echo "clone code from subversion server"
+	echo "Usage:"
+	echo "svn-clone repository [dir] [usrname]"
+	echo "	dir is a directory will clone to, defautl: current dir"
+	echo "	user used for login a verison server name, defautl: root"
+	echo
+	exit
+fi
+
+if [ -z $1 ]
+then
+	exit
+else
+	CLONE_REPO=$1
+fi
+if [ -z $2 ]
+then
+	CLONE_DIR=${CLONE_DIR_DEFAULT}
+else
+	CLONE_DIR=$2
+fi
+
+if [ -z $3 ]
+then
+	CLONE_USER=${CLONE_USER_DEFAULT}
+else
+	CLONE_USER=$3
+fi
+    git svn clone --username ${CLONE_USER} ${CLONE_REPO}  ${CLONE_DIR} 
+    pushd ${CLONE_DIR}
+    git svn-clone-externals
+    popd
+
+ 
