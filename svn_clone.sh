@@ -45,15 +45,10 @@ git clone ${git_repo}  ${local_dir}
 pushd ${local_dir}
 echo Enter directory: ${local_dir}
 echo clone svn remote ${svn_repo} ...
-git config -add svn-remote.svn.url ${svn_repo}
-git config -add svn-remote.svn.fetch :refs/remotes/git-svn
+git config --add svn-remote.svn.url ${svn_repo}
+git config --add svn-remote.svn.fetch :refs/remotes/git-svn
 git svn fetch 
-git checkout -b ${svn_branch_default} -t remotes/git-svn
 git gc
 popd
-
-
-git config -add svn-remote.svn.url ${svn_repo}
-git config -add svn-remote.svn.fetch :refs/remotes/svn
-git svn fetch 
+echo clone ${git_repo} and binding ${svn_repo} success
 
