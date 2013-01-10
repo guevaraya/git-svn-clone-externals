@@ -20,7 +20,7 @@ else
 fi
 if [ -z $2 ]
 then
-	CLONE_DIR=${CLONE_DIR_DEFAULT}
+	CLONE_DIR=${CLONE_REPO##*/}
 else
 	CLONE_DIR=$2
 fi
